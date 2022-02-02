@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.DATA.EF", "source\JobBoard.DATA.EF\JobBoard.DATA.EF.csproj", "{7EE43DB6-BC4F-451F-A018-50042690D34C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.UI.MVC", "source\JobBoard.UI.MVC\JobBoard.UI.MVC.csproj", "{63845063-A630-492D-9587-13ABA02F6629}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EE43DB6-BC4F-451F-A018-50042690D34C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE43DB6-BC4F-451F-A018-50042690D34C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE43DB6-BC4F-451F-A018-50042690D34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE43DB6-BC4F-451F-A018-50042690D34C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63845063-A630-492D-9587-13ABA02F6629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63845063-A630-492D-9587-13ABA02F6629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63845063-A630-492D-9587-13ABA02F6629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63845063-A630-492D-9587-13ABA02F6629}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
