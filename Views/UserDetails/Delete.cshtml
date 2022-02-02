@@ -1,0 +1,27 @@
+﻿@model JobBoard.DATA.EF.UserDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4  class="text-center" style="padding-top: 20px;">Are you sure you want to delete @Html.DisplayFor(model => model.FullName)'s account?</h4>
+
+<div>
+    <div class="flexbox">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2">
+                    <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "UserDetails")';" />
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        }
+    </div>
+</div>

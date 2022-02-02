@@ -1,0 +1,97 @@
+﻿@model IEnumerable<JobBoard.DATA.EF.Application>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Applications";
+}
+
+<div class="form-group">
+    <div class="col-md-12 text-center">
+        <div class="dropdown">
+            <select id="UrlList" onchange="doNavigate()">
+                <option value="@Url.Action("Index", "Applications")">All Applications</option>
+                <option value="@Url.Action("Pending", "Applications")">Pending Applications</option>
+                <option value="@Url.Action("Accepted", "Applications")" selected>Accepted Applications</option>
+                <option value="@Url.Action("Declined", "Applications")">Declined Applications</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="tablebody">
+    <table class="table display" id="tablejs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OpenPosition.Position.Title)
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Applicant
+                </th>
+                <th class="defaultOrder">
+                    @Html.DisplayNameFor(model => model.IsDeclined)
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Admin") || (User.IsInRole("Manager") && item.OpenPosition.Location.ManagerID == User.Identity.GetUserId()))
+                {
+                    if (item.IsDeclined == false)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OpenPosition.Position.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OpenPosition.Location.City),
+                                @Html.DisplayFor(modelItem => item.OpenPosition.Location.State)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserDetail.FullName)
+                            </td>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Accepted", "Edit", new { id = item.ApplicationID })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Accepted
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tablejs').dataTable(
+                {
+                    "order": [[0, "asc"]],
+                    "columnDefs": [{
+                        "targets": 'notOrderable',
+                        "searchable": false,
+                        "orderable": false,
+                    }]
+                }
+            );
+        });
+
+        function doNavigate() {
+            window.location.href = document.getElementById("UrlList").value;
+        }
+    </script>
+}

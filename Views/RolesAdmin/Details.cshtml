@@ -1,0 +1,41 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "Users with Role";
+}
+
+<div class="flexbox">
+    <h4 class="text-center">List of users in @Html.DisplayFor(model => model.Name)</h4>
+    @if (ViewBag.UserCount == 0)
+    {
+        <hr />
+        <p>No users found in this role.</p>
+    }
+
+    <table class="table">
+
+        @foreach (var item in ViewBag.Users)
+        {
+            <tr>
+                <td>
+                    @item.UserName
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="form-group row">
+        <div class="col-2"></div>
+        <div class="col-3">
+            <input type="submit" value="Edit Role" class="btn btn-green" />
+        </div>
+        <div class="col-2"></div>
+        <div class="col-3">
+            <input type="button" value="Cancel" class="btn btn-cancel" onclick="window.location.href='@Url.Action("Index", "RolesAdmin")';" />
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+
+

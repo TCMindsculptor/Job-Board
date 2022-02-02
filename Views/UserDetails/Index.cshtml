@@ -1,0 +1,67 @@
+﻿@model IEnumerable<JobBoard.DATA.EF.UserDetail>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "User Accounts";
+}
+
+<div class="tablebody">
+    <table class="table display" id="tablejs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AspNetUser.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ResumeFilename)
+                </th>
+                <th class="notOrderable">
+                    <input class="btn btn-green" type="button" value="Register New User" onclick="window.location.href='@Url.Action("Register", "Account")';" />
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.AspNetUser.Email, "Edit", "UsersAdmin", new { id = item.AspNetUser.Id }, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.FullName, "Edit", "UserDetails", new { id = item.UserID }, null)
+                        </td>
+                        <td>
+                            <a href="~/Content/images/Resumes/@Html.DisplayFor(modelItem => item.ResumeFilename)" target="_blank">View Resume</a>
+                        </td>
+                        <td>
+                            <input class="btn btn-danger" type="button" value="Delete" onclick="window.location.href='@Url.Action("Delete", "UserDetails", new { id = item.UserID })';" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tablejs').dataTable(
+                {
+                    "order": [[0, "asc"]],
+                    "columnDefs": [{
+                        "targets": 'notOrderable',
+                        "searchable": false,
+                        "orderable": false,
+                    }]
+                }
+            );
+        })
+    </script>
+}

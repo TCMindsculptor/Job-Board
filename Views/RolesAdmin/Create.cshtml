@@ -1,0 +1,40 @@
+﻿@model JobBoard.UI.MVC.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "Create Role";
+}
+
+<div class="flexbox">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+
+            <div class="form-group row">
+                <label class="control-label col-md-2" for="Name">Role Name</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <input type="submit" value="Create" class="btn btn-green" />
+                </div>
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <input type="button" value="Cancel" class="btn btn-cancel" onclick="window.location.href='@Url.Action("Index", "RolesAdmin")';" />
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

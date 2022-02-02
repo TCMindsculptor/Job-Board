@@ -1,0 +1,64 @@
+﻿@model JobBoard.UI.MVC.Models.ContactViewModel
+
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+<div class="flexbox">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-md-12 row">
+                @Html.TextBoxFor(model => model.Name, new
+               {
+                   @class = "form-control",
+                   @placeholder = "Name"
+               })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-md-12 row">
+                @Html.TextBoxFor(model => model.Email, new
+               {
+                   @class = "form-control",
+                   @placeholder = "Email"
+               })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-md-12 row">
+                @Html.TextBoxFor(model => model.Subject, new
+       {
+           @class = "form-control",
+           @placeholder = "Subject"
+       })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-md-12 row">
+                @Html.TextAreaFor(model => model.Message, new
+       {
+           @class = "form-control",
+           @placeholder = "Your Message Here",
+           @id = "message",
+           @rows = 8,
+           @style = "resize: none"
+       })
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-md-12 text-center">
+                <input type="submit"
+                       value="Send Message"
+                       class="btn btn-primary text-center"
+                       name="submit" />
+            </div>
+    }<!-- </form> -->
+</div>
+
+
+
+@section scripts {
+    <script src="~/Content/js/formvalidation.js"></script>
+}

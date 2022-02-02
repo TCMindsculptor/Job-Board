@@ -1,0 +1,109 @@
+﻿@model IEnumerable<JobBoard.DATA.EF.OpenPosition>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Open Positions";
+}
+
+<div class="form-group">
+    <div class="col-md-12 text-center">
+        <div class="dropdown">
+            <select id="UrlList" onchange="doNavigate()">
+                <option value="@Url.Action("Index", "OpenPositions")">All Positions</option>
+                <option value="@Url.Action("NewYorkCity", "OpenPositions")">New York City, NY - Corporate</option>
+                <option value="@Url.Action("Scranton", "OpenPositions")" selected>Scranton, PA - Branch</option>
+                <option value="@Url.Action("Stamford", "OpenPositions")">Stamford, CT - Branch</option>
+                <option value="@Url.Action("Syracuse", "OpenPositions")">Syracuse, NY - Branch</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="tablebody">
+    <table class="table display" id="tablejs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Position.Title)
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location.StoreNumber)
+                </th>
+                @if (!User.IsInRole("Admin"))
+                {
+                    <th class="notOrderable"></th>
+                }
+                @if (User.IsInRole("Admin") || (User.IsInRole("Manager")))
+                {
+                    <th class="notOrderable">
+                        <input type="submit" value="Create New" class="btn btn-green" onclick="window.location.href='@Url.Action("Create", "OpenPositions")';" />
+                    </th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.Location.StoreNumber == "1122334455")
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Position.Title, "Details", new { id = item.OpenPositionID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location.StoreLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location.StoreNumber)
+                        </td>
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <form method="post" action="@Url.Action("Apply", "OpenPositions", new { id = item.OpenPositionID })">
+                                    <input type="submit" value="Apply" class="btn btn-green" />
+                                </form>
+                            </td>
+                        }
+
+                        @if (User.IsInRole("Admin") || (User.IsInRole("Manager") && item.Location.ManagerID == User.Identity.GetUserId()))
+                        {
+                            <td>
+                                <input type="submit" value="Edit" class="btn btn-green" onclick="window.location.href='@Url.Action("Edit", "OpenPositions", new { id = item.OpenPositionID })';" /> |
+                                <input type="submit" value="Delete" class="btn btn-danger" onclick="window.location.href='@Url.Action("Delete", "OpenPositions", new { id = item.OpenPositionID })';" />
+                            </td>
+                        }
+                        else if (User.IsInRole("Manager") && !(item.Location.ManagerID == User.Identity.GetUserId()))
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tablejs').dataTable(
+                {
+                    "order": [[0, "asc"]],
+                    "columnDefs": [{
+                        "targets": 'notOrderable',
+                        "searchable": false,
+                        "orderable": false,
+                    }]
+                }
+            );
+        });
+
+        function doNavigate() {
+            window.location.href = document.getElementById("UrlList").value;
+        }
+    </script>
+}

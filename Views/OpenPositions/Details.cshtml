@@ -1,0 +1,67 @@
+﻿@model JobBoard.DATA.EF.OpenPosition
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Job Details";
+}
+
+<div class="flexbox">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Position.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Position.JobDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position.JobDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.StoreNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.StoreNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.StoreLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.StoreLocation)
+        </dd>
+    </dl>
+
+
+    @if (User.IsInRole("Admin") || (User.IsInRole("Manager") && Model.Location.ManagerID == User.Identity.GetUserId()))
+    {
+        <div class="form-group row">
+            <div class="col-2"></div>
+            <div class="col-3">
+                <input class="btn btn-green" type="button" value="Edit" onclick="window.location.href='@Url.Action("Edit", "OpenPositions", new { id = Model.OpenPositionID })';" />
+
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3">
+                <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "OpenPositions")';" />
+            </div>
+            <div class="col-2"></div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group text-center">
+            <div class="col-12">
+                <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "OpenPositions")';" />
+            </div>
+        </div>
+    }
+</div>

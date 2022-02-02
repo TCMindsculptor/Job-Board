@@ -1,0 +1,20 @@
+﻿@using JobBoard.DATA.EF
+@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated) {
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"})) {
+        @Html.AntiForgeryToken()
+
+        FinalEntities db = new FinalEntities();
+        string userID = User.Identity.GetUserId();
+        UserDetail currentUser = db.UserDetails.Where(c => c.UserID == userID).SingleOrDefault();
+            <li>
+                @Html.ActionLink(currentUser.FullName, "Edit", "UserDetails", new { id = User.Identity.GetUserId()}, null)
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+    }
+}
+else {
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+}

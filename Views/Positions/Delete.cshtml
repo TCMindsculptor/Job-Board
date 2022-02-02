@@ -1,0 +1,25 @@
+﻿@model JobBoard.DATA.EF.Position
+
+@{
+    ViewBag.Title = "Delete Position";
+}
+
+<h3 class="text-center">Are you sure you want to delete the @Html.DisplayFor(model => model.Title) position?</h3>
+
+<div class="flexbox">
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+                <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "Positions")';" />
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    }
+</div>

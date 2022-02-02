@@ -1,0 +1,76 @@
+﻿@model JobBoard.DATA.EF.UserDetail
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Edit User Account";
+}
+
+@if (Model.UserID == User.Identity.GetUserId())
+{
+    <p class="text-center" style="padding-top: 10px;">
+        @Html.ActionLink("Change Your Password", "ChangePassword", "Manage")
+    </p>
+}
+
+<div class="flexbox">
+    @using (Html.BeginForm("Edit", "UserDetails", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.ResumeFilename)
+
+
+
+        <div class="form-horizontal">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ResumeFilename, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" name="resume" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    <input type="submit" value="Save" class="btn btn-green" />
+                </div>
+
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "UserDetails")';" />
+                    }
+                    else
+                    {
+                        <input class="btn btn-cancel" type="button" value="Cancel" onclick="window.location.href='@Url.Action("Index", "Home")';" />
+                    }  
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

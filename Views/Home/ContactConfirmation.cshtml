@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Contact Confirmation";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<br />
+<h5 class="text-center">Message Successfully Sent!</h5>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-4"></div>
+    <form class="col-md-4 text-center" action="@Url.Action("Index", "Home")" method="get">
+        <button type="submit" class="text-center btn btn-green">Back to Home Page</button>
+    </form>
+    <div class="col-md-4"></div>
+</div>
+

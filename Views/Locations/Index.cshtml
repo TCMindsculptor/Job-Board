@@ -1,0 +1,67 @@
+﻿@model IEnumerable<JobBoard.DATA.EF.Location>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Locations";
+}
+
+<div class="tablebody">
+    <table class="table display" id="tablejs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StoreNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StoreLocation)
+                </th>
+                <th>
+                    Manager Name
+                </th>
+                <th class="notOrderable">
+                    <input type="button" value="Create New" class="btn btn-green" onclick="window.location.href='@Url.Action("Create", "Locations")';" />
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ManagerID == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.StoreNumber, "Edit", new { id = item.LocationID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StoreLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserDetail.FullName)
+                        </td>
+                        <td>
+                            <input type="button" value="Delete" class="btn btn-danger" onclick="window.location.href='@Url.Action("Delete", "Locations", new { id = item.LocationID })';" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tablejs').dataTable(
+                {
+                    "order": [[0, "asc"]],
+                    "columnDefs": [{
+                        "targets": 'notOrderable',
+                        "searchable": false,
+                        "orderable": false,
+                    }]
+                }
+            );
+        });
+    </script>
+}

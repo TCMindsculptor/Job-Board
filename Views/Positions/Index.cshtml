@@ -1,0 +1,57 @@
+﻿@model IEnumerable<JobBoard.DATA.EF.Position>
+
+@{
+    ViewBag.Title = "Positions";
+}
+
+<div class="tablebody">
+    <table class="table display" id="tablejs">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JobDescription)
+                </th>
+                <th class="notOrderable">
+                    <input type="submit" value="Create New" class="btn btn-green" onclick="window.location.href='@Url.Action("Create", "Positions")';" />
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Title, "Edit", new { id = item.PositionID })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobDescription)
+                    </td>
+                    <td>
+                        <input type="submit" value="Delete" class="btn btn-danger" onclick="window.location.href='@Url.Action("Delete", "Positions", new { id = item.PositionID })';" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tablejs').dataTable(
+                {
+                    "order": [[0, "asc"]],
+                    "columnDefs": [{
+                        "targets": 'notOrderable',
+                        "searchable": false,
+                        "orderable": false,
+                    }]
+                }
+            );
+        });
+    </script>
+}
